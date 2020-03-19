@@ -1,0 +1,69 @@
+<html>
+<head>
+    <title>Smart Solar Grid</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark">
+    <span class="navbar-brand mx-auto h1">Smart Solar Grid</span>
+</nav>
+<div class="text-center">
+    <div class="cover-container d-flex p-3 mx-auto flex-column">
+        <header class="masthead mb-auto">
+            <div class="inner">
+                <nav class="nav nav-masthead justify-content-center">
+                    <a class="nav-link active" href="/addlog">Add log</a>
+                    <a class="nav-link" href="/log">Existing log</a>
+                </nav>
+            </div>
+        </header>
+    </div>
+</div>
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-success" role="alert">
+    {{message}}
+    <br>
+    <a href="/log">Check log</a>
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<br>
+<!---->
+<div class="container border border-dark mx-auto" style="width: 1200px  ">
+    <form action="{{url_for('logging')}}" method="POST">
+        <h1 class="h3 mb-3 font-weight-normal">Log</h1>
+        <div class="form-group">
+            <label>First Name</label>
+            <input type="Text" class="form-control" name="first_name">
+        </div>
+
+        <div class="form-group">
+            <label>Last Name</label>
+            <input type="Text" class="form-control" name="last_name">
+        </div>
+
+        <div class="form-group">
+            <label>Email address</label>
+            <input type="email" class="form-control" name="email_id">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+            <label>Consumption(W)</label>
+            <input type="text" class="form-control" name="consumption">
+        </div>
+        <button type="submit" class="btn btn-primary" value="Submit">Submit</button>
+    </form>
+</div>
+<br>
+
+<footer class="text-light bg-dark">
+    <p>&copy; Created By <a href="https://github.com/itskshivam1318/" target="_blank">Muskan, Pooja, Saloni</a></p>
+</footer>
+
+</body>
+</html>

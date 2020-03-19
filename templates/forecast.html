@@ -1,0 +1,44 @@
+<html>
+<head>
+    <title>Smart Solar Grid</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<nav class="navbar navbar-dark bg-dark">
+    <span class="navbar-brand mx-auto h1">Smart Solar Grid</span>
+</nav>
+<div class="text-center">
+<h2>{{data['city']['name']}}, {{data['city']['country']}}</h2>
+    <p><b>latitude:</b>{{data['city']['coord']['lat']}}, <b>longitude:</b>{{data['city']['coord']['lon']}}</p>
+{% block content %}
+{% for item in data['list'] %}
+<div class="card mx-auto" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">{{item['dt_txt']}}</h5>
+      <p class="card-text"><B>{{city}}</B></p>
+  </div>
+    {% set Temperature = "%.2f"|format((item['main']['temp']) - 273.15|float) %}
+    {% set irrad = model.predict([[(item['main']['temp']) - 273.15]]) %}
+    {% set generation = genn.predict(irrad) %}
+    <ul class="list-group list-group-flush">
+    <li class="list-group-item">Temperature: {{Temperature}}°C</li>
+    <li class="list-group-item">Min Temperature: {{"%.2f"|format((item['main']['temp_min']) - 273.15)}}°C
+        <br>
+        Max Temperature: {{"%.2f"|format((item['main']['temp_max']) - 273.15)}}°C
+    </li>
+    <li class="list-group-item">Irradiance: {{irrad}} W/m²</li>
+        <li class="list-group-item">Generation: {{generation}} W</li>
+  </ul>
+</div>
+<br>
+
+
+{% endfor %}
+
+{% endblock %}
+</div>
+<footer class="text-light bg-dark">
+    <p>&copy; Created By <a href="https://github.com/itskshivam1318/" target="_blank">Muskan, Pooja, Saloni</a></p>
+</footer>
+</body>
+</html>
