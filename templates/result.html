@@ -1,0 +1,55 @@
+<html>
+<head>
+    <title>Smart Solar Grid</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<nav class="navbar navbar-dark bg-dark">
+    <span class="navbar-brand mx-auto h1">Smart Solar Grid</span>
+</nav>
+<div class="text-center">
+    <div class="cover-container d-flex p-3 mx-auto flex-column">
+        <header class="masthead mb-auto">
+            <div class="inner">
+                <nav class="nav nav-masthead justify-content-center">
+                    <a class="nav-link" href="/">Home</a>
+                </nav>
+            </div>
+        </header>
+    </div>
+</div>
+
+<div class="text-center">
+    <h2>Input array: {{inputs}}</h2>
+    <br>
+    <h2>Energy Requirements (process):</h2>
+    <h2>{{process}}</h2>
+    <br>
+    <h2>Output (Shortest job first):</h2>
+    <h2>{{sjf}}</h2>
+    <br>
+{% block content %}
+    <h2>Completion Time:</h2>
+    {% for i in range(ctlen) %}
+        <h2>Completion time for Process {{ sjf[i][0] }} is : {{ ct[i] }}.</h2>
+    {% endfor %}
+    <br>
+    <h2>Turn Around time:</h2>
+    {% for i in range(tatlen) %}
+        <h2>Turn around time for Process {{ sjf[i][0] }} is : {{ tat[i] }}.</h2>
+    {% endfor %}
+    <br>
+    <h2>Waiting Time:</h2>
+    {% for i in range(wtlen) %}
+        <h2>Waiting time for Process {{ sjf[i][0] }} is : {{ wt[i] }}.</h2>
+    {% endfor %}
+    <br>
+{% endblock content%}
+    <br>
+    <h2>Average Waiting Time for all process is: {{avarage_WT}}</h2>
+</div>
+<footer class="text-light bg-dark">
+    <p>&copy; Created By <a href="https://github.com/itskshivam1318/" target="_blank">Muskan, Pooja, Sonali</a></p>
+</footer>
+</body>
+</html>

@@ -8,6 +8,18 @@
     <span class="navbar-brand mx-auto h1">Smart Solar Grid</span>
 </nav>
 <div class="text-center">
+    <div class="cover-container d-flex p-3 mx-auto flex-column">
+        <header class="masthead mb-auto">
+            <div class="inner">
+                <nav class="nav nav-masthead justify-content-center">
+                    <a class="nav-link" href="/">Home</a>
+                </nav>
+            </div>
+        </header>
+    </div>
+</div>
+
+<div class="text-center">
 <h2>{{data['city']['name']}}, {{data['city']['country']}}</h2>
     <p><b>latitude:</b>{{data['city']['coord']['lat']}}, <b>longitude:</b>{{data['city']['coord']['lon']}}</p>
 {% block content %}
@@ -38,7 +50,7 @@
 {% endblock %}
 </div>
 <footer class="text-light bg-dark">
-    <p>&copy; Created By <a href="https://github.com/itskshivam1318/" target="_blank">Muskan, Pooja, Saloni</a></p>
+    <p>&copy; Created By <a href="https://github.com/itskshivam1318/" target="_blank">Muskan, Pooja, Sonali</a></p>
 </footer>
 </body>
 </html>

@@ -1,16 +1,13 @@
 <html>
 <head>
-    <title>stroke detection</title>
+    <title>Smart Solar Grid</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
 </head>
 <body>
 <nav class="navbar navbar-dark bg-dark">
     <span class="navbar-brand mx-auto h1">Smart Solar Grid</span>
 </nav>
-<br>
-<br>
 <div class="text-center">
     <div class="cover-container d-flex p-3 mx-auto flex-column">
         <header class="masthead mb-auto">
@@ -20,42 +17,38 @@
                 </nav>
             </div>
         </header>
-
-<div class="card-deck">
-    <div class="card">
-        <img class="card-img-top" src=".../100px100/" alt="Card image cap">
-        <div class="card-body">
-            <h5 class="card-title">Pooja</h5>
-            <p class="card-text"><a href=Email.id>Pooja@gmail.com</a></p>
-        </div>
-    </div>
-    <div class="card">
-        <img class="card-img-top" src=".../100px200/" alt="Card image cap">
-        <div class="card-body">
-            <h5 class="card-title">Muskan</h5>
-            <p class="card-text"><a href=Email.id>Muskan@gmail.com</a></p>
-        </div>
-    </div>
-    <div class="card">
-        <img class="card-img-top" src=".../100px200/" alt="Card image cap">
-        <div class="card-body">
-            <h5 class="card-title">Sonali</h5>
-            <p class="card-text"><a href=Email.id>Sonali@gmail.com</a></p>
-        </div>
     </div>
 </div>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
 
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-success" role="alert">
+    {{message}}
+    <br>
+    <a href="/log">Check log</a>
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<br>
+<!---->
+<div class="container border border-dark mx-auto" style="width: 1200px  ">
+    <form action="{{url_for('arrayentry')}}" method="POST">
+        <h1 class="h3 mb-3 font-weight-normal">Energy Redistribution</h1>
+        <div class="form-group">
+            <label>Enter Array</label>
+            <input type="Text" class="form-control" name="array">
+            <p>Enter in form of Array, First the arrival time and then the energy required with spaces in between them</p>
+        </div>
+        <button type="submit" class="btn btn-primary" value="Submit">Submit</button>
+    </form>
+</div>
+<br>
 
 <footer class="text-light bg-dark">
     <p>&copy; Created By <a href="https://github.com/itskshivam1318/" target="_blank">Muskan, Pooja, Sonali</a></p>
 </footer>
+
 </body>
 </html>

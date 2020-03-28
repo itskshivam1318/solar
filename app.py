@@ -3,6 +3,7 @@ from flask_mysqldb import MySQL
 import requests
 from sklearn import linear_model
 import pickle
+import numpy as np
 
 app = Flask(__name__)
 
@@ -60,6 +61,42 @@ def logging():
         cur.execute('INSERT INTO log(fname, lname, email, consumption) VALUES (%s,%s,%s,%s)',(fname,lname,email,consumption))
         mysql.connection.commit()
         return redirect(url_for("addlog"))
+
+@app.route('/sjf')
+def sjf():
+    return render_template("redistribution.html")
+
+@app.route('/arrayentry', methods=['POST'])
+def arrayentry():
+    if request.method == 'POST':
+        array = request.form['array']
+        inputss = array.split()
+        inputs = [int(x) for x in inputss]
+        inputs = np.array(inputs)
+        process = inputs.reshape((int(len(inputs) / 2), 2))  # converting 2d
+        process = process.tolist()
+        for p in range(len(process)):
+            process[p].insert(0, p + 1)
+        sjf = sorted(process, key=lambda x: (x[2], x[1]))
+        ct = []
+        for i in range(int(len(sjf))):
+            if i == 0:
+                ct.append(sjf[i][1] + sjf[i][2])
+            else:
+                ct.append(sjf[i][2] + ct[i - 1])
+        ctlen = len(ct)
+        tat = []
+        for i in range(int(len(sjf))):
+            tat.append(ct[i] - sjf[i][1])
+        tatlen = len(tat)
+        wt = []
+        for i in range(int(len(sjf))):
+            wt.append(tat[i] - sjf[i][2])
+        wtlen = len(wt)
+        avarage_WT = round(np.mean(wt), 2)
+
+        return render_template("result.html", inputs = inputs, process= process,sjf =sjf, ct= ct, ctlen= ctlen, tat= tat, tatlen = tatlen,wt=wt, wtlen = wtlen, avarage_WT= avarage_WT)
+
 
 @app.route('/about')
 def about():
