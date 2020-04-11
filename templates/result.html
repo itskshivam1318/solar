@@ -20,33 +20,12 @@
 </div>
 
 <div class="text-center">
-    <h2>Input array: {{inputs}}</h2>
-    <br>
-    <h2>Energy Requirements (process):</h2>
-    <h2>{{process}}</h2>
-    <br>
-    <h2>Output (Shortest job first):</h2>
-    <h2>{{sjf}}</h2>
-    <br>
-{% block content %}
-    <h2>Completion Time:</h2>
-    {% for i in range(ctlen) %}
-        <h2>Completion time for Process {{ sjf[i][0] }} is : {{ ct[i] }}.</h2>
+    <h2>Total Wastage : {{wastagesum}}</h2>
+    <h2>Output:</h2>
+    {% for i in range(outputlen)%}
+        <h4>{{output[i]}}</h4>
     {% endfor %}
     <br>
-    <h2>Turn Around time:</h2>
-    {% for i in range(tatlen) %}
-        <h2>Turn around time for Process {{ sjf[i][0] }} is : {{ tat[i] }}.</h2>
-    {% endfor %}
-    <br>
-    <h2>Waiting Time:</h2>
-    {% for i in range(wtlen) %}
-        <h2>Waiting time for Process {{ sjf[i][0] }} is : {{ wt[i] }}.</h2>
-    {% endfor %}
-    <br>
-{% endblock content%}
-    <br>
-    <h2>Average Waiting Time for all process is: {{avarage_WT}}</h2>
 </div>
 <footer class="text-light bg-dark">
     <p>&copy; Created By <a href="https://github.com/itskshivam1318/" target="_blank">Muskan, Pooja, Sonali</a></p>

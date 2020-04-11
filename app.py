@@ -4,6 +4,7 @@ import requests
 from sklearn import linear_model
 import pickle
 import numpy as np
+import os
 
 app = Flask(__name__)
 
@@ -69,33 +70,80 @@ def sjf():
 @app.route('/arrayentry', methods=['POST'])
 def arrayentry():
     if request.method == 'POST':
-        array = request.form['array']
-        inputss = array.split()
-        inputs = [int(x) for x in inputss]
-        inputs = np.array(inputs)
-        process = inputs.reshape((int(len(inputs) / 2), 2))  # converting 2d
+        processinput = request.form['process']
+        wastageinput = request.form['wastage']
+        # process input
+        processes = processinput.split()
+        process = [int(x) for x in processes]
+        process = np.array(process)
+        process = process.reshape((int(len(process) / 2), 2))  # converting 2d
         process = process.tolist()
+        inputprocess = process
+        processlen = len(process)
+
+        #wastage input
+        wastages = wastageinput.split()
+        wastage = [int(x) for x in wastages]
+        wastage = np.array(wastage)
+        wastage = wastage.tolist()
+        inputwastage = wastage
+        total_wastage = sum(wastage)
+        wastagesum = total_wastage
+
+        #adding percentage
+        for p in range(len(process)):
+            process[p].insert(0, process[p][0] * 100.0 / process[p][1])
+        #adding process id
         for p in range(len(process)):
             process[p].insert(0, p + 1)
-        sjf = sorted(process, key=lambda x: (x[2], x[1]))
-        ct = []
-        for i in range(int(len(sjf))):
-            if i == 0:
-                ct.append(sjf[i][1] + sjf[i][2])
-            else:
-                ct.append(sjf[i][2] + ct[i - 1])
-        ctlen = len(ct)
-        tat = []
-        for i in range(int(len(sjf))):
-            tat.append(ct[i] - sjf[i][1])
-        tatlen = len(tat)
-        wt = []
-        for i in range(int(len(sjf))):
-            wt.append(tat[i] - sjf[i][2])
-        wtlen = len(wt)
-        avarage_WT = round(np.mean(wt), 2)
 
-        return render_template("result.html", inputs = inputs, process= process,sjf =sjf, ct= ct, ctlen= ctlen, tat= tat, tatlen = tatlen,wt=wt, wtlen = wtlen, avarage_WT= avarage_WT)
+        os.remove("output.txt")
+
+        while (len(process) != 0 or total_wastage < 0):
+            process.sort(key=lambda process: process[1])
+            #print("after 10 min add 10% of its battery capacity to the process with highest proirity")
+            process[0][2] = process[0][2] + 10 / 100 * process[0][3]
+            total_wastage = total_wastage - 10 / 100 * process[0][3]
+            #print(process)
+            #print("update battery status")
+            process[0][1] = process[0][2] * 100.0 / process[0][3]
+            #print(process)
+            #print("total wastage: {}".format(total_wastage))
+            f = open("output.txt","a")
+            f.write("$")
+            f.write("<---- After 10 minutes and 10% charge ---->")
+            f.write("#")
+            f.write("Current Process under execution: {}.#".format(str(process[0][0])))
+            f.write("Battery Percentage: {}%#".format(str(process[0][1])))
+            f.write("Current charge: {}W#".format(str(process[0][2])))
+            f.write("Capacity: {}W#".format(str(process[0][3])))
+            f.write("|| Processes ||#")
+            for i in range(1,len(process)):
+                f.write("Process: {}, ".format(str(process[i][0])))
+                f.write("Battery: {}%, ".format(str(process[i][1])))
+                f.write("Charge: {}W, ".format(str(process[i][2])))
+                f.write("Capacity: {}W,#".format(str(process[i][3])))
+            f.write("Total Wastage: {}W.#".format(str(total_wastage)))
+            if (process[0][1] == 100.0 or process[0][2] > process[0][3]):
+                #print("completed process:{}".format(process.pop(0)))
+                f.write("Completed process: {}".format(str(process.pop(0))))
+            else:
+                f.write("Completed process: None")
+            f.write("#")
+            f.write("-----------------------------------------------")
+            f.write("-----------------------------------------------")
+
+            f.write("#")
+        f.close()
+        f = open("output.txt","r")
+        output = f.read()
+        f.close()
+
+        output = str(output.split('$'))
+        output = output.split('#')
+        outputlen= len(output)
+
+        return render_template("result.html",inputprocess = inputprocess,inputwastage=inputwastage,wastagesum=wastagesum,process = process,processlen=processlen, wastage= wastage, total_wastage=total_wastage,output=output, outputlen=outputlen)
 
 
 @app.route('/about')

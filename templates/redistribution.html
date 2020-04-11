@@ -37,9 +37,14 @@
     <form action="{{url_for('arrayentry')}}" method="POST">
         <h1 class="h3 mb-3 font-weight-normal">Energy Redistribution</h1>
         <div class="form-group">
-            <label>Enter Array</label>
-            <input type="Text" class="form-control" name="array">
-            <p>Enter in form of Array, First the arrival time and then the energy required with spaces in between them</p>
+            <label>Enter Array of Processes</label>
+            <input type="Text" class="form-control" name="process">
+            <p>Enter in form of Array, First the current battery charge and second the capacity of the battery.(in watts)</p>
+        </div>
+        <div class="form-group">
+            <label>Enter Array of Wastage energy</label>
+            <input type="Text" class="form-control" name="wastage">
+            <p>Enter in form of Array the wastage from different sources.(in watts)</p>
         </div>
         <button type="submit" class="btn btn-primary" value="Submit">Submit</button>
     </form>
